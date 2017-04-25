@@ -35,23 +35,21 @@
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[parameters('networkSettings').addressPrefix]"
+            "[parameters('vnetAddressPrefix')]"
           ]
         },
-        "subnets": [
-          {
-            "name": "[parameters('networkSettings').subnets.dmz.name]",
-            "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnets.dmz.prefix]"
-            }
-          },
-          {
-            "name": "[parameters('networkSettings').subnets.data.name]",
-            "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnets.data.prefix]"
-            }
-          }
-        ]
+        "subnets": {
+        "dmz": {
+          "name": "[parameters('dbSubnetName')]",
+          "prefix": "[parameters('dbSubnetAddressPrefix')]",
+          "vnet": "[parameters('virtualNetworkName')]"
+        },
+        "data": {
+          "name": "[parameters('dbSubnetName')]",
+          "prefix": "[parameters('dbSubnetAddressPrefix')]",
+          "vnet": "[parameters('virtualNetworkName')]"
+        }
+      }
       }
     },
     {
