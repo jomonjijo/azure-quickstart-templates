@@ -27,6 +27,34 @@
         "description": "Virtual machine administrator password"
       }
     },
+    "virtualNetworkExistingRGName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "If using existing VNet, specifies the resource group for the existing VNet"
+            }
+        },
+        "dbSubnetName": {
+            "type": "string",
+            "defaultValue": "dbsubnet",
+            "metadata": {
+                "description": "subnet name for the MySQL nodes"
+            }
+        },
+        "vnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16",
+            "metadata": {
+                "description": "IP address in CIDR for virtual network"
+            }
+        },
+        "dbSubnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24",
+            "metadata": {
+                "description": "IP address in CIDR for db subnetq"
+            }
+        },
     "tshirtSize": {
       "type": "string",
       "defaultValue": "Small",
@@ -66,7 +94,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/postgresql-on-ubuntu/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/jijouohmac/postgresql/master/postgresql-on-ubuntu/",
     "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
     "tshirtSizeSmall": {
       "vmSize": "Standard_A1",
@@ -157,16 +185,16 @@
     },
     "networkSettings": {
       "vnetName": "[parameters('virtualNetworkName')]",
-      "addressPrefix": "10.0.0.0/16",
+      "addressPrefix": "[parameters('vnetAddressPrefix')]",
       "subnets": {
         "dmz": {
-          "name": "dmz",
-          "prefix": "10.0.0.0/24",
+          "name": "[parameters('dbSubnetName')]",
+          "prefix": "[parameters('vnetAddressPrefix')]",
           "vnet": "[parameters('virtualNetworkName')]"
         },
         "data": {
-          "name": "data",
-          "prefix": "10.0.1.0/24",
+          "name": "[parameters('dbSubnetName')]",
+          "prefix": "[parameters('vnetAddressPrefix')]",
           "vnet": "[parameters('virtualNetworkName')]"
         }
       }
